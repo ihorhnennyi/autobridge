@@ -1,10 +1,6 @@
 (function () {
   "use strict";
 
-  var SESSION_KEY = "autobridge_plaque_modal_shown";
-  var DELAY_MS = 15000;
-  var openTimer = null;
-
   function renderPlaque(root, data) {
     root.innerHTML = "";
 
@@ -38,89 +34,6 @@
 
     root.appendChild(head);
     root.appendChild(body);
-
-    var modalBody = document.getElementById("plaque-modal-body");
-    if (modalBody) {
-      modalBody.innerHTML = "";
-      var headClone = head.cloneNode(true);
-      var titleInModal = headClone.querySelector(".plaque__title");
-      if (titleInModal) titleInModal.id = "plaque-modal-title";
-      modalBody.appendChild(headClone);
-      modalBody.appendChild(body.cloneNode(true));
-    }
-  }
-
-  function openPlaqueModal(modal) {
-    var modalBody = document.getElementById("plaque-modal-body");
-    if (
-      !modal ||
-      !modalBody ||
-      !modalBody.querySelector(".plaque__title")
-    ) {
-      return;
-    }
-    modal.hidden = false;
-    modal.classList.add("modal--open");
-    document.body.style.overflow = "hidden";
-    try {
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch (e) {}
-    var closeBtn = modal.querySelector(".modal__close");
-    if (closeBtn) closeBtn.focus();
-  }
-
-  function closePlaqueModal(modal) {
-    if (!modal) return;
-    modal.classList.remove("modal--open");
-    modal.hidden = true;
-    document.body.style.overflow = "";
-  }
-
-  function clearOpenTimer() {
-    if (openTimer !== null) {
-      clearTimeout(openTimer);
-      openTimer = null;
-    }
-  }
-
-  window.addEventListener(
-    "pagehide",
-    function () {
-      clearOpenTimer();
-    },
-    { capture: true }
-  );
-
-  function initPlaqueModal() {
-    var modal = document.getElementById("plaque-modal");
-    if (!modal) return;
-
-    try {
-      if (sessionStorage.getItem(SESSION_KEY) === "1") return;
-    } catch (e) {}
-
-    function onClose() {
-      closePlaqueModal(modal);
-    }
-
-    modal.querySelectorAll("[data-modal-close]").forEach(function (el) {
-      el.addEventListener("click", onClose);
-    });
-
-    document.addEventListener("keydown", function (ev) {
-      if (ev.key === "Escape" && !modal.hidden) {
-        onClose();
-      }
-    });
-
-    clearOpenTimer();
-    openTimer = window.setTimeout(function () {
-      openTimer = null;
-      try {
-        if (sessionStorage.getItem(SESSION_KEY) === "1") return;
-      } catch (e) {}
-      openPlaqueModal(modal);
-    }, DELAY_MS);
   }
 
   var root = document.getElementById("plaque-inner");
@@ -136,11 +49,5 @@
     })
     .catch(function () {
       root.setAttribute("data-plaque-error", "1");
-    })
-    .finally(function () {
-      var modalBody = document.getElementById("plaque-modal-body");
-      if (modalBody && modalBody.querySelector(".plaque__title")) {
-        initPlaqueModal();
-      }
     });
 })();
