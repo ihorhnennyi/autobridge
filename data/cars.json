@@ -4,7 +4,7 @@
   "cars": [
     {
       "id": "1",
-      "image": "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=640&q=80&auto=format&fit=crop",
+      "image": "assets/images/car/photo_2026-04-08 13.01.07.jpeg",
       "region": "Япония",
       "title": "Toyota Camry",
       "yearLabel": "2019 год",
@@ -24,7 +24,7 @@
     },
     {
       "id": "2",
-      "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=640&q=80&auto=format&fit=crop",
+      "image": "assets/images/car/photo_2026-04-08 13.01.04.jpeg",
       "region": "Германия",
       "title": "BMW X5 xDrive40i",
       "yearLabel": "2020 год",
@@ -44,27 +44,27 @@
     },
     {
       "id": "3",
-      "image": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=640&q=80&auto=format&fit=crop",
-      "region": "Германия",
-      "title": "BMW X5 xDrive",
+      "image": "assets/images/car/photo_2026-04-08 13.01.10.jpeg",
+      "region": "Корея",
+      "title": "KIA Optima IV Рестайлинг",
       "yearLabel": "2019 год",
       "specs": {
-        "mileage": "52 100 км",
+        "mileage": "114 117 км",
         "year": "2019",
-        "fuel": "Дизель",
-        "engine": "3.0 л",
-        "drive": "Полный привод",
+        "fuel": "Бензин",
+        "engine": "2.0 л (150 л.с.)",
+        "drive": "Передний привод",
         "transmission": "Автомат"
       },
-      "priceFromLabel": "Цена из Германии",
-      "priceFrom": "$36,800",
-      "priceRuLabel": "Цена в России",
-      "priceRu": "$51,500",
-      "benefit": "$14,700"
+      "priceFromLabel": "Цена при заказе",
+      "priceFrom": "$19,500",
+      "priceRuLabel": "Цена на рынке РФ",
+      "priceRu": "$24,200",
+      "benefit": "$4,700"
     },
     {
       "id": "4",
-      "image": "https://images.unsplash.com/photo-1617689366769-7dbc532d701e?w=640&q=80&auto=format&fit=crop",
+      "image": "assets/images/car/photo_2026-04-08 13.01.09.jpeg",
       "region": "Европа",
       "title": "Volvo XC60 R-Design",
       "yearLabel": "2021 год",

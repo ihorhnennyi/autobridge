@@ -97,19 +97,29 @@
 
   link.addEventListener("click", function (e) {
     e.preventDefault();
-    function tryOpen() {
+    function tryCatalog() {
+      if (typeof window.autoBridgeOpenCatalogModal !== "function") return false;
+      window.autoBridgeOpenCatalogModal();
+      return true;
+    }
+    function tryCallModal() {
       return (
         typeof window.autoBridgeOpenCallModal === "function" &&
         window.autoBridgeOpenCallModal()
       );
     }
-    if (tryOpen()) return;
+    if (tryCatalog()) return;
     window.setTimeout(function () {
-      if (tryOpen()) return;
-      if (link.dataset.phoneHref) {
-        window.location.href = link.dataset.phoneHref;
-      }
-    }, 450);
+      if (tryCatalog()) return;
+      if (tryCallModal()) return;
+      window.setTimeout(function () {
+        if (tryCatalog()) return;
+        if (tryCallModal()) return;
+        if (link.dataset.phoneHref) {
+          window.location.href = link.dataset.phoneHref;
+        }
+      }, 450);
+    }, 0);
   });
 
   onScroll();

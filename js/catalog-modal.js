@@ -3,13 +3,12 @@
 
   var SESSION_KEY = "autobridge_catalog_modal_shown";
   var DELAY_MS = 15000;
-  var RETRY_DELAY_MS = 2500;
 
   var timerSite = null;
-  var timerAfterClose = null;
   var catalogModalData = null;
   var catalogModalCloseWired = false;
   var catalogModalSuccessCloseTimer = null;
+  var openWhenReady = false;
 
   var quizInteractionBlocksCatalogModal = false;
   var quizSectionInView = false;
@@ -92,18 +91,10 @@
     }
   }
 
-  function clearAfterCloseTimer() {
-    if (timerAfterClose !== null) {
-      clearTimeout(timerAfterClose);
-      timerAfterClose = null;
-    }
-  }
-
   window.addEventListener(
     "pagehide",
     function () {
       clearSiteTimer();
-      clearAfterCloseTimer();
       try {
         sessionStorage.removeItem(SESSION_KEY);
       } catch (e) {}
@@ -260,7 +251,6 @@
             catalogModalSuccessCloseTimer = null;
             if (modal) {
               closeModal(modal);
-              scheduleAfterClose(modal);
             }
           }, 5000);
         })
@@ -282,7 +272,6 @@
   function openModal(modal) {
     if (!modal || !modal.hidden) return;
     clearSiteTimer();
-    clearAfterCloseTimer();
     clearCatalogModalSuccessTimer();
     modal.hidden = false;
     modal.classList.add("modal--open");
@@ -310,13 +299,7 @@
 
   function attemptAutoOpenFromSiteTimer(modal) {
     if (!modal || !modal.hidden) return;
-    if (isCatalogModalAutoshowBlocked()) {
-      timerSite = window.setTimeout(function () {
-        timerSite = null;
-        attemptAutoOpenFromSiteTimer(modal);
-      }, RETRY_DELAY_MS);
-      return;
-    }
+    if (isCatalogModalAutoshowBlocked()) return;
     openModal(modal);
   }
 
@@ -328,50 +311,12 @@
     }, DELAY_MS);
   }
 
-  function attemptAutoOpenAfterClose(modal) {
-    if (!modal || !modal.hidden) return;
-    if (isCatalogModalAutoshowBlocked()) {
-      timerAfterClose = window.setTimeout(function () {
-        timerAfterClose = null;
-        attemptAutoOpenAfterClose(modal);
-      }, RETRY_DELAY_MS);
-      return;
-    }
-    openModal(modal);
-  }
-
-  function scheduleAfterClose(modal) {
-    clearAfterCloseTimer();
-    timerAfterClose = window.setTimeout(function () {
-      timerAfterClose = null;
-      attemptAutoOpenAfterClose(modal);
-    }, DELAY_MS);
-  }
-
-  function headingIsInView(heading) {
-    var rect = heading.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    return rect.top < vh * 0.88 && rect.bottom > vh * 0.06;
-  }
-
-  function tryOpenFromHeading(modal, heading, obs) {
-    try {
-      if (sessionStorage.getItem(SESSION_KEY) === "1") return false;
-    } catch (e) {}
-    if (!heading || !headingIsInView(heading)) return false;
-    if (isCatalogModalAutoshowBlocked()) return false;
-    if (obs) obs.disconnect();
-    openModal(modal);
-    return true;
-  }
-
   function wireCatalogModalClose(modal) {
     if (catalogModalCloseWired) return;
     catalogModalCloseWired = true;
 
     function onClose() {
       closeModal(modal);
-      scheduleAfterClose(modal);
     }
 
     modal.querySelectorAll("[data-catalog-modal-close]").forEach(function (el) {
@@ -383,75 +328,15 @@
     });
   }
 
-  function initObserver(modal) {
-    var heading = document.getElementById("cars-title");
-    if (!heading) return;
-
-    wireCatalogModalClose(modal);
-
-    var skipAutoOpen = false;
-    try {
-      skipAutoOpen = sessionStorage.getItem(SESSION_KEY) === "1";
-    } catch (e) {}
-
-    if (typeof IntersectionObserver === "undefined") {
-      if (skipAutoOpen) return;
-      window.addEventListener(
-        "scroll",
-        function onScroll() {
-          if (tryOpenFromHeading(modal, heading, null)) {
-            window.removeEventListener("scroll", onScroll);
-          }
-        },
-        { passive: true }
-      );
-      tryOpenFromHeading(modal, heading, null);
-      return;
-    }
-
-    if (skipAutoOpen) return;
-
-    var obs = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          if (isCatalogModalAutoshowBlocked()) return;
-          obs.disconnect();
-          openModal(modal);
-        });
-      },
-      { threshold: 0, rootMargin: "0px 0px -8% 0px" }
-    );
-    obs.observe(heading);
-
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        tryOpenFromHeading(modal, heading, obs);
-      });
-    });
-  }
-
-  function scheduleInit(modal) {
-    function run() {
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          initObserver(modal);
-        });
-      });
-    }
-    if (document.readyState === "complete") {
-      run();
-    } else {
-      window.addEventListener("load", run);
-    }
-  }
-
   var bodyEl = document.getElementById("catalog-modal-body");
   var modal = document.getElementById("catalog-modal");
   if (!bodyEl || !modal) return;
 
   window.autoBridgeOpenCatalogModal = function () {
-    if (!catalogModalData) return;
+    if (!catalogModalData) {
+      openWhenReady = true;
+      return;
+    }
     renderForm(bodyEl, catalogModalData);
     openModal(modal);
   };
@@ -466,7 +351,11 @@
       setupCatalogModalBlockListeners();
       renderForm(bodyEl, data);
       scheduleSiteTimer(modal);
-      scheduleInit(modal);
+      wireCatalogModalClose(modal);
+      if (openWhenReady) {
+        openWhenReady = false;
+        openModal(modal);
+      }
     })
     .catch(function () {
       bodyEl.innerHTML =

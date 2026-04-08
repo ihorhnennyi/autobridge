@@ -99,6 +99,14 @@
     cta.textContent = (data.cta && data.cta.text) || "";
     root.appendChild(cta);
 
+    cta.addEventListener("click", function (e) {
+      var openCatalog = window.autoBridgeOpenCatalogModal;
+      if (typeof openCatalog === "function") {
+        openCatalog();
+        e.preventDefault();
+      }
+    });
+
     var statsWrap = document.createElement("div");
     statsWrap.className = "hero__stats";
     (data.stats || []).forEach(function (item) {
