@@ -2,6 +2,8 @@
   "use strict";
 
   var SESSION_KEY = "autobridge_plaque_modal_shown";
+  var DELAY_MS = 15000;
+  var openTimer = null;
 
   function renderPlaque(root, data) {
     root.innerHTML = "";
@@ -36,10 +38,27 @@
 
     root.appendChild(head);
     root.appendChild(body);
+
+    var modalBody = document.getElementById("plaque-modal-body");
+    if (modalBody) {
+      modalBody.innerHTML = "";
+      var headClone = head.cloneNode(true);
+      var titleInModal = headClone.querySelector(".plaque__title");
+      if (titleInModal) titleInModal.id = "plaque-modal-title";
+      modalBody.appendChild(headClone);
+      modalBody.appendChild(body.cloneNode(true));
+    }
   }
 
   function openPlaqueModal(modal) {
-    if (!modal) return;
+    var modalBody = document.getElementById("plaque-modal-body");
+    if (
+      !modal ||
+      !modalBody ||
+      !modalBody.querySelector(".plaque__title")
+    ) {
+      return;
+    }
     modal.hidden = false;
     modal.classList.add("modal--open");
     document.body.style.overflow = "hidden";
@@ -57,10 +76,24 @@
     document.body.style.overflow = "";
   }
 
+  function clearOpenTimer() {
+    if (openTimer !== null) {
+      clearTimeout(openTimer);
+      openTimer = null;
+    }
+  }
+
+  window.addEventListener(
+    "pagehide",
+    function () {
+      clearOpenTimer();
+    },
+    { capture: true }
+  );
+
   function initPlaqueModal() {
-    var sentinel = document.getElementById("plaque-sentinel");
     var modal = document.getElementById("plaque-modal");
-    if (!sentinel || !modal) return;
+    if (!modal) return;
 
     try {
       if (sessionStorage.getItem(SESSION_KEY) === "1") return;
@@ -80,19 +113,14 @@
       }
     });
 
-    if (typeof IntersectionObserver === "undefined") return;
-
-    var obs = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          obs.disconnect();
-          openPlaqueModal(modal);
-        });
-      },
-      { threshold: 0, rootMargin: "0px 0px 0px 0px" }
-    );
-    obs.observe(sentinel);
+    clearOpenTimer();
+    openTimer = window.setTimeout(function () {
+      openTimer = null;
+      try {
+        if (sessionStorage.getItem(SESSION_KEY) === "1") return;
+      } catch (e) {}
+      openPlaqueModal(modal);
+    }, DELAY_MS);
   }
 
   var root = document.getElementById("plaque-inner");
@@ -110,6 +138,9 @@
       root.setAttribute("data-plaque-error", "1");
     })
     .finally(function () {
-      initPlaqueModal();
+      var modalBody = document.getElementById("plaque-modal-body");
+      if (modalBody && modalBody.querySelector(".plaque__title")) {
+        initPlaqueModal();
+      }
     });
 })();
