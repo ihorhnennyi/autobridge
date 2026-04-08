@@ -1,0 +1,86 @@
+{
+  "title": "Доступные автомобили",
+  "subtitle": "Актуальные предложения с аукционов Европы, Кореи и Японии",
+  "cars": [
+    {
+      "id": "1",
+      "image": "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=640&q=80&auto=format&fit=crop",
+      "region": "Япония",
+      "title": "Toyota Camry",
+      "yearLabel": "2019 год",
+      "specs": {
+        "mileage": "45 200 км",
+        "year": "2019",
+        "fuel": "Бензин",
+        "engine": "2.5 л",
+        "drive": "Передний привод",
+        "transmission": "Автомат"
+      },
+      "priceFromLabel": "Цена из Японии",
+      "priceFrom": "$18,500",
+      "priceRuLabel": "Цена в России",
+      "priceRu": "$32,000",
+      "benefit": "$13,500"
+    },
+    {
+      "id": "2",
+      "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=640&q=80&auto=format&fit=crop",
+      "region": "Германия",
+      "title": "BMW X5 xDrive40i",
+      "yearLabel": "2020 год",
+      "specs": {
+        "mileage": "38 900 км",
+        "year": "2020",
+        "fuel": "Бензин",
+        "engine": "3.0 л",
+        "drive": "Полный привод",
+        "transmission": "Автомат"
+      },
+      "priceFromLabel": "Цена из Германии",
+      "priceFrom": "$42,200",
+      "priceRuLabel": "Цена в России",
+      "priceRu": "$58,000",
+      "benefit": "$15,800"
+    },
+    {
+      "id": "3",
+      "image": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=640&q=80&auto=format&fit=crop",
+      "region": "Германия",
+      "title": "BMW X5 xDrive",
+      "yearLabel": "2019 год",
+      "specs": {
+        "mileage": "52 100 км",
+        "year": "2019",
+        "fuel": "Дизель",
+        "engine": "3.0 л",
+        "drive": "Полный привод",
+        "transmission": "Автомат"
+      },
+      "priceFromLabel": "Цена из Германии",
+      "priceFrom": "$36,800",
+      "priceRuLabel": "Цена в России",
+      "priceRu": "$51,500",
+      "benefit": "$14,700"
+    },
+    {
+      "id": "4",
+      "image": "https://images.unsplash.com/photo-1617689366769-7dbc532d701e?w=640&q=80&auto=format&fit=crop",
+      "region": "Европа",
+      "title": "Volvo XC60 R-Design",
+      "yearLabel": "2021 год",
+      "specs": {
+        "mileage": "28 400 км",
+        "year": "2021",
+        "fuel": "Бензин",
+        "engine": "2.0 л",
+        "drive": "Полный привод",
+        "transmission": "Автомат"
+      },
+      "priceFromLabel": "Цена из Европы",
+      "priceFrom": "$39,900",
+      "priceRuLabel": "Цена в России",
+      "priceRu": "$54,200",
+      "benefit": "$14,300"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoBridge</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="first-screen">
+      <div class="wrapper">
+        <header class="header">
+          <a href="/" class="header__brand" aria-label="AutoBridge — на главную">
+            <img class="header__logo" src="assets/images/logo.png" alt="AutoBridge" />
+          </a>
+          <a class="header__phone" id="header-phone" href="#"></a>
+        </header>
+
+        <main class="hero">
+          <div class="hero__inner" id="hero-inner"></div>
+          <a class="hero__scroll" href="#next" aria-label="К следующему блоку">
+            <span class="hero__scroll-text">Дальше</span>
+            <svg class="hero__scroll-icon" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="assets/icon/scroll-down.svg#scroll-arrow" />
+            </svg>
+          </a>
+        </main>
+      </div>
+    </div>
+
+    <section id="next" class="services" aria-label="Услуги">
+      <div class="wrapper">
+        <div id="services-inner"></div>
+      </div>
+    </section>
+
+    <section class="process" id="process" aria-label="Как это работает">
+      <div class="wrapper">
+        <div id="process-inner"></div>
+      </div>
+    </section>
+
+    <section class="plaque" id="plaque-section" aria-label="Сопровождение">
+      <div class="wrapper">
+        <div class="plaque__card" id="plaque-inner"></div>
+      </div>
+      <div id="plaque-sentinel" class="plaque__sentinel" aria-hidden="true"></div>
+    </section>
+
+    <section class="cars" id="catalog" aria-label="Автомобили">
+      <div class="wrapper">
+        <header class="cars__intro">
+          <h2 id="cars-title" class="cars__title">Доступные автомобили</h2>
+          <p id="cars-subtitle" class="cars__subtitle"></p>
+        </header>
+        <div class="cars__grid" id="cars-grid" role="list"></div>
+      </div>
+    </section>
+
+    <section class="auctions" id="auctions" aria-label="Аукционы">
+      <div class="wrapper">
+        <div id="auctions-inner"></div>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-label="Квиз расчёта стоимости">
+      <div class="wrapper">
+        <div id="quiz-root"></div>
+      </div>
+    </section>
+
+    <section class="reviews" id="reviews" aria-label="Отзывы клиентов">
+      <div class="wrapper">
+        <div id="reviews-inner"></div>
+      </div>
+    </section>
+
+    <section class="consult" id="consult" aria-label="Консультация">
+      <div class="wrapper">
+        <div id="consult-inner"></div>
+      </div>
+    </section>
+
+    <footer class="footer" id="footer">
+      <div class="wrapper">
+        <div id="footer-inner"></div>
+      </div>
+    </footer>
+
+    <div class="float-actions" id="float-actions" aria-hidden="true">
+      <a
+        id="float-telegram"
+        class="float-tg"
+        href="https://t.me/"
+        target="_blank"
+        rel="noopener noreferrer"
+        tabindex="-1"
+      >
+        <span class="float-tg__shell">
+          <span class="float-tg__pulse" aria-hidden="true"></span>
+          <span class="float-tg__core">
+            <svg class="float-tg__icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path
+                fill="currentColor"
+                d="M9.78 18.65l.28-4.23 7.68-6.92c.33-.3-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.45.18 1.2 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"
+              />
+            </svg>
+          </span>
+        </span>
+      </a>
+      <button
+        type="button"
+        id="call-float"
+        class="call-float"
+        tabindex="-1"
+      >
+        <span class="call-float__shell">
+          <span class="call-float__pulse" aria-hidden="true"></span>
+          <span class="call-float__core">
+            <svg class="call-float__icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path
+                fill="currentColor"
+                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+              />
+            </svg>
+            <span class="call-float__text">
+              <span class="call-float__label">Позвонить</span>
+              <span class="call-float__hint" hidden></span>
+            </span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="scroll-top" id="scroll-top-btn" aria-label="Наверх" tabindex="-1">
+        <span class="scroll-top__shell">
+          <span class="scroll-top__pulse" aria-hidden="true"></span>
+          <span class="scroll-top__core">
+            <svg class="scroll-top__icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 15l6-6 6 6"
+              />
+            </svg>
+          </span>
+        </span>
+      </button>
+    </div>
+
+    <div
+      id="call-modal"
+      class="modal modal--catalog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="call-modal-title"
+      hidden
+    >
+      <div class="modal__backdrop" data-call-modal-close tabindex="-1"></div>
+      <div class="modal__panel" role="document">
+        <button type="button" class="modal__close" data-call-modal-close aria-label="Закрыть">&times;</button>
+        <div class="modal__body" id="call-modal-body"></div>
+      </div>
+    </div>
+
+    <div
+      id="catalog-modal"
+      class="modal modal--catalog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="catalog-modal-title"
+      hidden
+    >
+      <div class="modal__backdrop" data-catalog-modal-close tabindex="-1"></div>
+      <div class="modal__panel" role="document">
+        <button type="button" class="modal__close" data-catalog-modal-close aria-label="Закрыть">&times;</button>
+        <div class="modal__body" id="catalog-modal-body"></div>
+      </div>
+    </div>
+
+    <div
+      id="plaque-modal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Окно"
+      hidden
+    >
+      <div class="modal__backdrop" data-modal-close tabindex="-1"></div>
+      <div class="modal__panel" role="document">
+        <button type="button" class="modal__close" data-modal-close aria-label="Закрыть">&times;</button>
+        <div class="modal__body" id="plaque-modal-body"></div>
+      </div>
+    </div>
+    <script src="js/scroll-restore.js"></script>
+    <script src="js/reveal-on-scroll.js" defer></script>
+    <script src="js/hero.js" defer></script>
+    <script src="js/services.js" defer></script>
+    <script src="js/steps.js" defer></script>
+    <script src="js/plaque.js" defer></script>
+    <script src="js/cars.js" defer></script>
+    <script src="js/phone-ru.js" defer></script>
+    <script src="js/telegram-send.js" defer></script>
+    <script src="js/call-modal.js" defer></script>
+    <script src="js/catalog-modal.js" defer></script>
+    <script src="js/auctions.js" defer></script>
+    <script src="js/quiz.js" defer></script>
+    <script src="js/reviews.js" defer></script>
+    <script src="js/consult.js" defer></script>
+    <script src="js/footer.js" defer></script>
+    <script src="js/call-float.js" defer></script>
+  </body>
+</html>
